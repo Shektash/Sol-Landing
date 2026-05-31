@@ -23,7 +23,7 @@ export default function Home() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: "REEMPLAZA_CON_TU_KEY",
+          access_key: "b05535ab-902c-4817-8d89-8e73c5d045a8",
           subject: "Nueva solicitud de información — Alma del Sur",
           from_name: "Alma del Sur Lendingpage",
           nombre: formState.nombre,
