@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Costa del Sol — Obra Nueva"
+version = "1.0.0"
+id = "artifacts/costa-del-sol"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18613
+
+[services.development]
+run = "pnpm --filter @workspace/costa-del-sol run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/costa-del-sol", "run", "build" ]
+publicDir = "artifacts/costa-del-sol/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18613"
+BASE_PATH = "/"

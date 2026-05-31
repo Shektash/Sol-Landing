@@ -1,0 +1,32 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "E8ajq9IdNBSibHxn7CMcM"
+uri = "file://artifacts/costa-del-sol/public/hero.png"
+type = "image"
+title = "Hero aerial villa coast"
+
+[[generated]]
+id = "rvlQ95-69Z-Y7ZP4a89UF"
+uri = "file://artifacts/costa-del-sol/public/facade.png"
+type = "image"
+title = "Villa white facade"
+
+[[generated]]
+id = "s_T_JKawK2o-n7qPKO3Z2"
+uri = "file://artifacts/costa-del-sol/public/interior.png"
+type = "image"
+title = "Luxury living room interior"
+
+[[generated]]
+id = "zGPtqTNUyY0QA_2SzE0sR"
+uri = "file://artifacts/costa-del-sol/public/pool.png"
+type = "image"
+title = "Infinity pool sea view"
+
+[[generated]]
+id = "Ts6NinN4LdxbIeHabf5Zd"
+uri = "file://artifacts/costa-del-sol/public/lifestyle.png"
+type = "image"
+title = "Mediterranean lifestyle"
