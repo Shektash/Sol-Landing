@@ -1,0 +1,48 @@
+Делаю pull чтобы увидеть его правки и параллельно проверяю production.
+
+**Важная находка — Replit Agent НЕ запушил изменения в GitHub.** В репо на GitHub всё по-старому:
+- `lang="en"` (он говорит что поменял на "es" — но в GitHub этого нет)
+- meta description всё ещё «built on Replit. Update this description...»
+- Форма всё ещё `onSubmit={(e) => e.preventDefault()}` — никакой валидации/состояния
+
+Скорее всего он изменил файлы локально в Replit, но забыл сделать commit + push.
+
+И проверю что на production через прямой fetch (Chrome MCP отключился).
+
+WebFetch не выполняет JS — для React-SPA видит только пустой shell. Использую curl чтобы посмотреть raw HTML и понять что в `index.html` на production.
+
+Результат проверки production — **картина не очень**:
+
+| Что обещал/сделал | На production реально |
+|-------------------|----------------------|
+| Мой commit «Marbella» | ❌ Нет (pull в Replit не сделан) |
+| Replit Agent поменял `lang="es"` | ❌ Нет (`lang="en"`) |
+| Replit Agent поправил meta-теги | ❌ Нет (всё ещё «built on Replit. Update...») |
+| Replit Agent подключил состояние формы | ❌ Нет (в GitHub формы всё ещё `e.preventDefault()`) |
+
+То есть **production = первоначальная версия со всеми дырами**. Ни одно изменение не дошло.
+
+**Что произошло:**
+- Replit Agent **локально в Replit** что-то изменил, но **не закоммитил/не запушил** в GitHub
+- Скорее всего его изменения видны только в dev-preview Replit, но не на production-URL
+- А мой commit `Marbella` не дошёл потому что в Replit не сделали pull + redeploy
+
+**Чтобы вырваться из этого хаоса — нужна единая дисциплина:**
+
+1. **Скажи Replit Agent СТОП.** Что-то типа: *«Отмени все локальные правки которые ты сделал в коде (lang, meta, форма). Дальше код правит только Opus через GitHub. Ты только делаешь pull когда я скажу и помогаешь с deploy.»* Иначе мы получим merge-конфликт когда я запушу.
+
+2. **Я делаю весь пакет правок в одном коммите** — перевод на английский + SEO + Web3Forms + tel/mailto. Жду от тебя только **Web3Forms Access Key** (email я уже знаю — `info@evsproperty.com`, спасибо Replit Agent).
+
+3. **После моего push** ты в Replit делаешь:
+   - Git → Pull (подтянуть мой commit)
+   - Затем явный **Redeploy** на production (Publishing → Redeploy)
+   - Если не сделать Redeploy — production останется со старой версией
+
+4. **Chrome MCP отключился** — для GTM мне нужно чтобы ты убедился что Chrome открыт и расширение Claude активно (или скажи когда заметишь что отвалилось).
+
+**Что нужно от тебя:**
+- 1️⃣ Скажи Replit Agent остановить локальные правки и откатить
+- 2️⃣ Дай мне **Web3Forms Access Key** (зайди web3forms.com → введи `info@evsproperty.com` → получишь по почте)
+- 3️⃣ Проверь Chrome (открыт + расширение активно)
+
+После этих 3 шагов я делаю всё одним пакетом за 10-15 минут.
