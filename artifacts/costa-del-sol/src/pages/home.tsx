@@ -249,12 +249,11 @@ export default function Home() {
         target="_blank"
         rel="noopener noreferrer"
         data-testid="link-whatsapp-widget"
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#25D366] text-white rounded-full shadow-2xl px-5 py-3 hover:bg-[#1ebe5d] transition-all duration-300 group"
+        className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-2xl hover:bg-[#1ebe5d] hover:scale-110 transition-all duration-300"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-6 h-6 fill-white flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-7 h-7 fill-white">
           <path d="M16 .5C7.44.5.5 7.44.5 16c0 2.82.74 5.47 2.03 7.78L.5 31.5l7.93-2.07A15.45 15.45 0 0016 31.5C24.56 31.5 31.5 24.56 31.5 16S24.56.5 16 .5zm0 28.18a13.6 13.6 0 01-6.93-1.9l-.5-.3-5.17 1.35 1.37-5.02-.33-.52A13.6 13.6 0 012.32 16C2.32 8.98 8.98 2.32 16 2.32S29.68 8.98 29.68 16 23.02 28.68 16 28.68zm7.47-10.2c-.41-.2-2.42-1.2-2.8-1.33-.37-.14-.64-.2-.91.2-.27.41-1.05 1.33-1.29 1.6-.24.28-.47.31-.88.1-.41-.2-1.72-.63-3.27-2.01-1.21-1.08-2.02-2.4-2.26-2.81-.24-.41-.03-.63.18-.84.18-.18.41-.47.61-.7.2-.24.27-.41.41-.68.14-.27.07-.51-.03-.7-.1-.2-.91-2.2-1.25-3.01-.33-.8-.67-.69-.91-.7h-.77c-.27 0-.71.1-1.08.51-.37.41-1.42 1.38-1.42 3.37s1.45 3.91 1.65 4.18c.2.27 2.86 4.37 6.93 6.13.97.42 1.72.67 2.31.86.97.3 1.85.26 2.55.16.78-.12 2.42-.99 2.76-1.94.34-.96.34-1.78.24-1.95-.1-.17-.37-.27-.78-.47z"/>
         </svg>
-        <span className="text-sm font-medium tracking-wide whitespace-nowrap">Contactar por WhatsApp</span>
       </a>
 
       {/* Footer */}
