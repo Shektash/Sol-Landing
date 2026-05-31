@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -11,6 +11,38 @@ export default function Home() {
 
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const [formState, setFormState] = useState({ nombre: "", email: "", telefono: "", mensaje: "" });
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFormStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "REEMPLAZA_CON_TU_KEY",
+          subject: "Nueva solicitud de información — Alma del Sur",
+          from_name: "Alma del Sur Lendingpage",
+          nombre: formState.nombre,
+          email: formState.email,
+          telefono: formState.telefono,
+          mensaje: formState.mensaje,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setFormStatus("success");
+        setFormState({ nombre: "", email: "", telefono: "", mensaje: "" });
+      } else {
+        setFormStatus("error");
+      }
+    } catch {
+      setFormStatus("error");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background selection:bg-primary/20" ref={containerRef}>
@@ -195,51 +227,79 @@ export default function Home() {
             </p>
           </div>
 
-          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {formStatus === "success" ? (
+            <div className="text-center py-16 space-y-4">
+              <p className="text-2xl font-serif tracking-wide">Gracias por su interés.</p>
+              <p className="text-primary-foreground/70 tracking-widest uppercase text-sm">Le contactaremos en breve.</p>
+            </div>
+          ) : (
+            <form className="space-y-8" onSubmit={handleSubmit} data-testid="form-contact">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2 border-b border-primary-foreground/30 pb-2">
+                  <label className="text-xs uppercase tracking-widest text-primary-foreground/70">Nombre completo</label>
+                  <input
+                    required
+                    type="text"
+                    data-testid="input-nombre"
+                    value={formState.nombre}
+                    onChange={e => setFormState(s => ({ ...s, nombre: e.target.value }))}
+                    className="w-full bg-transparent border-none outline-none focus:ring-0 text-lg placeholder:text-primary-foreground/30"
+                    placeholder="Su nombre"
+                  />
+                </div>
+                <div className="space-y-2 border-b border-primary-foreground/30 pb-2">
+                  <label className="text-xs uppercase tracking-widest text-primary-foreground/70">Email</label>
+                  <input
+                    required
+                    type="email"
+                    data-testid="input-email"
+                    value={formState.email}
+                    onChange={e => setFormState(s => ({ ...s, email: e.target.value }))}
+                    className="w-full bg-transparent border-none outline-none focus:ring-0 text-lg placeholder:text-primary-foreground/30"
+                    placeholder="Su correo electrónico"
+                  />
+                </div>
+              </div>
+
               <div className="space-y-2 border-b border-primary-foreground/30 pb-2">
-                <label className="text-xs uppercase tracking-widest text-primary-foreground/70">Nombre completo</label>
-                <input 
-                  type="text" 
+                <label className="text-xs uppercase tracking-widest text-primary-foreground/70">Teléfono</label>
+                <input
+                  required
+                  type="tel"
+                  data-testid="input-telefono"
+                  value={formState.telefono}
+                  onChange={e => setFormState(s => ({ ...s, telefono: e.target.value }))}
                   className="w-full bg-transparent border-none outline-none focus:ring-0 text-lg placeholder:text-primary-foreground/30"
-                  placeholder="Su nombre"
+                  placeholder="+34 600 000 000"
                 />
               </div>
+
               <div className="space-y-2 border-b border-primary-foreground/30 pb-2">
-                <label className="text-xs uppercase tracking-widest text-primary-foreground/70">Email</label>
-                <input 
-                  type="email" 
-                  className="w-full bg-transparent border-none outline-none focus:ring-0 text-lg placeholder:text-primary-foreground/30"
-                  placeholder="Su correo electrónico"
+                <label className="text-xs uppercase tracking-widest text-primary-foreground/70">Mensaje (Opcional)</label>
+                <textarea
+                  data-testid="input-mensaje"
+                  value={formState.mensaje}
+                  onChange={e => setFormState(s => ({ ...s, mensaje: e.target.value }))}
+                  className="w-full bg-transparent border-none outline-none focus:ring-0 text-lg placeholder:text-primary-foreground/30 resize-none"
+                  rows={3}
+                  placeholder="¿En qué le podemos ayudar?"
                 />
               </div>
-            </div>
-            
-            <div className="space-y-2 border-b border-primary-foreground/30 pb-2">
-              <label className="text-xs uppercase tracking-widest text-primary-foreground/70">Teléfono</label>
-              <input 
-                type="tel" 
-                className="w-full bg-transparent border-none outline-none focus:ring-0 text-lg placeholder:text-primary-foreground/30"
-                placeholder="+34 600 000 000"
-              />
-            </div>
 
-            <div className="space-y-2 border-b border-primary-foreground/30 pb-2">
-              <label className="text-xs uppercase tracking-widest text-primary-foreground/70">Mensaje (Opcional)</label>
-              <textarea 
-                className="w-full bg-transparent border-none outline-none focus:ring-0 text-lg placeholder:text-primary-foreground/30 resize-none"
-                rows={3}
-                placeholder="¿En qué le podemos ayudar?"
-              />
-            </div>
+              {formStatus === "error" && (
+                <p className="text-red-400 text-sm tracking-wide">Ha ocurrido un error. Por favor inténtelo de nuevo.</p>
+              )}
 
-            <Button 
-              type="submit" 
-              className="w-full bg-background text-foreground hover:bg-background/90 text-lg h-14 rounded-none font-light tracking-wide uppercase mt-8"
-            >
-              Solicitar Información
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                disabled={formStatus === "sending"}
+                data-testid="button-submit"
+                className="w-full bg-background text-foreground hover:bg-background/90 text-lg h-14 rounded-none font-light tracking-wide uppercase mt-8 disabled:opacity-50"
+              >
+                {formStatus === "sending" ? "Enviando..." : "Solicitar Información"}
+              </Button>
+            </form>
+          )}
         </div>
       </section>
 
