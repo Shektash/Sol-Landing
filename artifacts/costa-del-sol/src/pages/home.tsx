@@ -53,7 +53,7 @@ export default function Home() {
             transition={{ duration: 1.5, delay: 0.5 }}
             className="text-lg md:text-xl font-light tracking-widest uppercase"
           >
-            Marbella · Costa del Sol
+            Málaga · Costa del Sol
           </motion.p>
         </div>
       </section>
